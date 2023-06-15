@@ -1,0 +1,26 @@
+{
+    "preferences": {
+        "default_formatter": {
+            "python": [
+                "black"
+            ],
+        }
+    },
+    "black": {
+        "line_length": 88,
+        "string_normalization": true
+    },
+    
+    "styler": {},
+    "formatOnSave": true,
+    "cacheFormatters": false,
+    "astyle": {
+        "args": []
+    },
+    "ruff": {
+        "args": [
+            "--select=I"
+        ]
+    },
+    "suppressFormatterErrors": false,
+}
