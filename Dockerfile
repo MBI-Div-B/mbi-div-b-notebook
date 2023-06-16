@@ -25,6 +25,8 @@ RUN apt-get update --yes && \
     cmake \
     libzmq5-dev \
     libtiff5-dev \ 
+    # user requests
+    imagemagick \
     # for matplotlib anim
     ffmpeg && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -68,6 +70,8 @@ RUN mamba install --yes \
     'xlrd' \
     'conda-forge::pyfai' \
     'jupyterlab-h5web' \
+    'xarray' \
+    'netCDF4' \
     'conda-forge::dask-labextension' && \
     mamba clean --all -f -y && \
     fix-permissions "${CONDA_DIR}" && \
@@ -78,7 +82,7 @@ RUN mamba install --yes \
 # https://github.com/EmCeBeh/ultrafastFitFunctions/pull/2
 RUN pip install --no-cache-dir udkm1Dsim \
     pyEvalData \
-    ultrafastFitFunctions \
+    git+https://github.com/lrlunin/ultrafastFitFunctions@5bd30901b405dab1b161f59c7c1d5238c2f12991 \
     git+https://github.com/MBI-Div-B/mbistyles.git \ 
     nbdime \
     jupyterlab-fasta \
