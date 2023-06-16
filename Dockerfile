@@ -48,10 +48,10 @@ RUN mamba install --yes \
     'dask' \
     'dill' \
     'h5py' \
-    'ipympl'\
-    'ipywidgets' \
+    'ipympl=0.9.3' \
+    'ipywidgets=8.0.6' \
     'jupyterlab-git' \
-    'matplotlib-base' \
+    'matplotlib-base=3.7.1' \
     'numba' \
     'numexpr' \
     'openpyxl' \
