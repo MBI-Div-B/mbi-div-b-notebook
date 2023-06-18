@@ -4,7 +4,7 @@ ARG BASE_CONTAINER=jupyter/minimal-notebook
 FROM $BASE_CONTAINER
 
 LABEL maintainer="@lrlunin"
-
+LABEL description="Docker image for the MBI div B JupyterHub"
 # Fix: https://github.com/hadolint/hadolint/wiki/DL4006
 # Fix: https://github.com/koalaman/shellcheck/wiki/SC3014
 COPY data/Fira_Sans.zip /tmp/Fira_Sans.zip
