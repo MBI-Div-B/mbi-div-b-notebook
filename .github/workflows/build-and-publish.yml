@@ -16,6 +16,7 @@ on:
     branches: [ main ]
 env:
   REGISTRY: ghcr.io
+  REPO_NAME_LOWERCASE: mbi-div-b
   IMAGE_NAME_1: mbi-div-b-notebook-base
   IMAGE_NAME_2: mbi-div-b-notebook-cuda
 jobs:
@@ -62,7 +63,7 @@ jobs:
         with:
           context: ${{ env.IMAGE_NAME_2 }}
           build-args: |
-            BASE_REPO=${{ github.repository_owner }}
+            BASE_REPO=${{ env.REPO_NAME_LOWERCASE }}
             REGISTRY=${{ env.REGISTRY }}
             }}
           file: ${{ env.IMAGE_NAME_2 }}/Dockerfile
