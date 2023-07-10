@@ -73,9 +73,9 @@ RUN mamba install --yes \
     'widgetsnbextension' \
     'xlrd' \
     'conda-forge::pyfai' \
-    'jupyterlab-h5web' \
     'xarray' \
     'netCDF4' \
+    'jupyter-collaboration' \
     'conda-forge::dask-labextension' && \
     mamba clean --all -f -y && \
     fix-permissions "${CONDA_DIR}" && \
@@ -95,6 +95,7 @@ RUN pip install --no-cache-dir udkm1Dsim \
     jupyterlab-mathjax2 \
     jupyterlab-vega3 \
     jupyterlab-code-formatter \
+    jupyterlab_h5web[full] \
     black && \ 
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
