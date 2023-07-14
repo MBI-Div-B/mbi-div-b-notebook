@@ -111,10 +111,35 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # since the cuda version is 11.7 maybe we will need to build it from sources
 RUN mkdir /opt/mumax3 && cd /opt/mumax3 && \
     wget https://mumax.ugent.be/mumax3-binaries/mumax3.10_linux_cuda11.0.tar.gz && \
-    tar -xzf mumax3.10_linux_cuda11.0.tar.gz
-    # && \
-    #rm mumax3-2020.10.01-Linux.tar.gz && \
-    #ln -s /opt/mumax3/mumax3 /usr/local/bin/mumax3
+    tar -xzf mumax3.10_linux_cuda11.0.tar.gz && \
+    rm mumax3.10_linux_cuda11.0.tar.gz && \
+    ln -s /opt/mumax3/mumax3.10_linux_cuda11.0/mumax3 /usr/local/bin/mumax3
+
+# for boris 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libomp-dev \
+    libtbb-dev \
+    libx11-dev && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir /opt/fftw-3.3.10 && cd /opt/fftw-3.3.10 && \
+    wget https://www.fftw.org/fftw-3.3.10.tar.gz && \
+    tar -xf fftw-3.3.10.tar.gz && \
+    rm fftw-3.3.10.tar.gz && \
+    cd fftw-3.3.10 && \
+    ./configure && \
+    make && \
+    make install
+
+RUN mkdir /opt/boris && \
+    git clone https://github.com/MBI-Div-B/Boris2 /opt/boris && \
+    cd /opt/boris && \
+    make configure arch=70 sprec=1 python=3.11 cuda=11.7 conda-env-path=${CONDA_DIR} && \
+    make compile -j 32 && \
+    make install && \
+    ln -s /opt/boris/BorisLin /usr/local/bin/BorisLin
+# EXPORT PATH AND LD_LIBRARY_PATH FOR NVIDIA? (ALREADY EXPORTED?)
 
 USER ${NB_UID}
 
