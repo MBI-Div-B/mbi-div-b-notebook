@@ -39,15 +39,6 @@ jobs:
         id: cuda-toolkit
         with:
           cuda: '11.7.1'
-      - name: docker-toolkit installation
-        run: |
-          sudo apt install -y curl
-          distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
-          curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
-          curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-          sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
-          sudo echo ${{ env.DOCKER_DAEMON }} >> /etc/docker/daemon.json
-          sudo systemctl restart docker
       - name: Check out the repo
         uses: actions/checkout@v3
 
@@ -72,7 +63,15 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta1.outputs.tags }}
           labels: ${{ steps.meta1.outputs.labels }}
-
+      - name: docker-toolkit installation
+        run: |
+          sudo apt install -y curl
+          distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+          curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+          curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+          sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
+          sudo echo ${{ env.DOCKER_DAEMON }} >> /etc/docker/daemon.json
+          sudo systemctl restart docker
       - name: Extract metadata (tags, labels) for Docker 2nd image
         id: meta2
         uses: docker/metadata-action@v4.6.0
