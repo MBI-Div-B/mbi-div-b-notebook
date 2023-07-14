@@ -19,13 +19,6 @@ env:
   REPO_NAME_LOWERCASE: mbi-div-b
   IMAGE_NAME_1: mbi-div-b-notebook-base
   IMAGE_NAME_2: mbi-div-b-notebook-cuda
-  DOCKER_DAEMON: |
-    {"runtimes": {
-    "nvidia": {
-    "path": "/usr/bin/nvidia-container-runtime",
-      "runtimeArgs": []}},
-    "default-runtime": "nvidia" }
-
 jobs:
   push_to_registry:
     name: Push Docker image to GitHub Container Registry
@@ -70,7 +63,7 @@ jobs:
           curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
           curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
           sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
-          sudo echo ${{ env.DOCKER_DAEMON }} >> /etc/docker/daemon.json
+          sudo echo {"runtimes": {"nvidia": {"path": "/usr/bin/nvidia-container-runtime","runtimeArgs": []}},"default-runtime": "nvidia"} >> /etc/docker/daemon.json
           sudo systemctl restart docker
       - name: Extract metadata (tags, labels) for Docker 2nd image
         id: meta2
