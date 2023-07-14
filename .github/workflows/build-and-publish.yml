@@ -27,6 +27,16 @@ jobs:
       packages: write
       contents: read
     steps:
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 512
+          swap-size-mb: 1024
+          remove-dotnet: 'true'
+      - name: free-space-init
+        run: |
+          echo "Free space:"
+          df -h
       - name: cuda-toolkit installation
         uses: Jimver/cuda-toolkit@v0.2.11
         id: cuda-toolkit
@@ -56,13 +66,17 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta1.outputs.tags }}
           labels: ${{ steps.meta1.outputs.labels }}
+      - name: free-space-1st-build
+        run: |
+          echo "Free space:"
+          df -h
       - name: docker-toolkit installation
         run: |
           sudo apt install -y curl
           distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
           curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
           curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-          sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
+          sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit && apt-get clean && rm -rf /var/lib/apt/lists/*
           echo {"runtimes": {"nvidia": {"path": "/usr/bin/nvidia-container-runtime","runtimeArgs": []}},"default-runtime": "nvidia"} >> sudo tee /etc/docker/daemon.json
           sudo systemctl restart docker
       - name: Extract metadata (tags, labels) for Docker 2nd image
