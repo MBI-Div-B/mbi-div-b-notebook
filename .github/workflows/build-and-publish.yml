@@ -63,7 +63,7 @@ jobs:
           curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
           curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
           sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
-          sudo echo {"runtimes": {"nvidia": {"path": "/usr/bin/nvidia-container-runtime","runtimeArgs": []}},"default-runtime": "nvidia"} >> /etc/docker/daemon.json
+          echo {"runtimes": {"nvidia": {"path": "/usr/bin/nvidia-container-runtime","runtimeArgs": []}},"default-runtime": "nvidia"} >> sudo tee /etc/docker/daemon.json
           sudo systemctl restart docker
       - name: Extract metadata (tags, labels) for Docker 2nd image
         id: meta2
