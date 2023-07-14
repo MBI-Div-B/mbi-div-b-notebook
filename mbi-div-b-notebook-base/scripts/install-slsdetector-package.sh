@@ -9,3 +9,4 @@ mkdir build && cd build
 cmake ../slsDetectorPackage -DCMAKE_INSTALL_PREFIX=/opt/slsdetectorpackage -DSLS_USE_MOENCH=ON
 make -j8
 make install
+rm -rf ../slsDetectorPackage
