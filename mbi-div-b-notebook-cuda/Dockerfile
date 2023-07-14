@@ -61,7 +61,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     cuda-nvtx-11-7=${NV_NVTX_VERSION} \
     libcusparse-11-7=${NV_LIBCUSPARSE_VERSION} \
     ${NV_LIBCUBLAS_PACKAGE} \
-    ${NV_LIBNCCL_PACKAGE}
+    ${NV_LIBNCCL_PACKAGE} && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN apt-mark hold ${NV_LIBCUBLAS_PACKAGE_NAME} \
     ${NV_LIBNCCL_PACKAGE_NAME}
@@ -94,7 +95,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcusparse-dev-11-7=${NV_LIBCUSPARSE_DEV_VERSION} \
     ${NV_LIBCUBLAS_DEV_PACKAGE} \
     ${NV_LIBNCCL_DEV_PACKAGE} \
-    ${NV_NSIGHT_COMPUTE_DEV_PACKAGE}
+    ${NV_NSIGHT_COMPUTE_DEV_PACKAGE} && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN apt-mark hold ${NV_LIBCUBLAS_DEV_PACKAGE_NAME} \
     ${NV_LIBNCCL_DEV_PACKAGE_NAME}
 ENV LIBRARY_PATH=$LIBRARY_PATH:/usr/local/cuda/lib64/stubs
@@ -105,7 +107,8 @@ ENV NV_CUDNN_PACKAGE_DEV=libcudnn8-dev=8.5.0.96-1+cuda11.7
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ${NV_CUDNN_PACKAGE} \
     ${NV_CUDNN_PACKAGE_DEV} && \
-    apt-mark hold ${NV_CUDNN_PACKAGE_NAME}
+    apt-mark hold ${NV_CUDNN_PACKAGE_NAME} && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # mumax installation to test if it works
 # since the cuda version is 11.7 maybe we will need to build it from sources
