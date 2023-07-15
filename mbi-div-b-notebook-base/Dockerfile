@@ -29,7 +29,10 @@ RUN apt-get update --yes && \
     # user requests
     imagemagick \
     # for matplotlib anim
-    ffmpeg && \
+    ffmpeg \
+    # for octave installation
+    octave \
+    gnuplot && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN chmod +x /tmp/scripts/install-mbistyles-fonts.sh && /tmp/scripts/install-mbistyles-fonts.sh
@@ -76,6 +79,7 @@ RUN mamba install --yes \
     'xarray' \
     'netCDF4' \
     'jupyter-collaboration' \
+    'octave_kernel' \
     'conda-forge::dask-labextension' && \
     mamba clean --all -f -y && \
     fix-permissions "${CONDA_DIR}" && \
