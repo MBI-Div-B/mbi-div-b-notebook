@@ -139,7 +139,7 @@ RUN mkdir /opt/boris && \
     git clone https://github.com/MBI-Div-B/Boris2 /opt/boris && \
     cd /opt/boris && \
     make configure arch=70 sprec=1 python=3.11 cuda=11.7 conda-env-path=${CONDA_DIR} && \
-    make compile -j 32 && \
+    make compile -j 4 && \
     make install && \
     ln -s /opt/boris/BorisLin /usr/local/bin/BorisLin
 # EXPORT PATH AND LD_LIBRARY_PATH FOR NVIDIA? (ALREADY EXPORTED?)
