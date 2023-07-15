@@ -32,7 +32,9 @@ RUN apt-get update --yes && \
     ffmpeg \
     # for octave installation
     octave \
-    gnuplot && \
+    gnuplot \
+    # for cifs mount inside of the image
+    cifs-utils && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN chmod +x /tmp/scripts/install-mbistyles-fonts.sh && /tmp/scripts/install-mbistyles-fonts.sh
