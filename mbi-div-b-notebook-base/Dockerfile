@@ -34,7 +34,9 @@ RUN apt-get update --yes && \
     octave \
     gnuplot \
     # for cifs mount inside of the image
-    cifs-utils && \
+    cifs-utils \
+    # for nfs mount insde of the image
+    nfs-common && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN chmod +x /tmp/scripts/install-mbistyles-fonts.sh && /tmp/scripts/install-mbistyles-fonts.sh
