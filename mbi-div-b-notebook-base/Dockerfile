@@ -49,6 +49,9 @@ RUN chmod +x /tmp/scripts/install-slsdetector-package.sh && /tmp/scripts/install
 USER ${NB_UID}
 #Install Python 3 packages
 RUN mamba install --yes \
+    # due to the bug in previos version of notebook need to be fixed with the version below
+    'jupyterlab=4.0.4' \
+    'notebook=7.0.2' \
     'altair' \
     'beautifulsoup4' \
     'bokeh' \
@@ -107,9 +110,6 @@ RUN pip install --no-cache-dir udkm1Dsim \
     black && \ 
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
-
-# copying "new default" settings like black code formatter
-COPY --chown=${NB_UID}:${NB_UID} data/user-settings /home/${NB_USER}/.jupyter/lab/user-settings
 
 # jupyterlab-code-formatter needs to be configured
 # https://jupyterlab-code-formatter.readthedocs.io/configuration.html
