@@ -50,8 +50,8 @@ USER ${NB_UID}
 #Install Python 3 packages
 RUN mamba install --yes \
     # due to the bug in previos version of notebook need to be fixed with the version below
-    'jupyterlab=4.0.4' \
-    'notebook=7.0.2' \
+    'jupyterlab=4.0.9' \
+    'notebook=7.0.6' \
     'altair' \
     'beautifulsoup4' \
     'bokeh' \
@@ -63,9 +63,9 @@ RUN mamba install --yes \
     'dill' \
     'h5py' \
     'ipympl=0.9.3' \
-    'ipywidgets=8.0.6' \
+    'ipywidgets=8.1.1' \
     'jupyterlab-git' \
-    'matplotlib-base=3.7.1' \
+    'matplotlib-base=3.8.2' \
     'numba' \
     'numexpr' \
     'openpyxl' \
@@ -85,7 +85,7 @@ RUN mamba install --yes \
     'conda-forge::pyfai' \
     'xarray' \
     'netCDF4' \
-    'jupyter-collaboration' \
+    # 'jupyter-collaboration' \
     'octave_kernel' \
     'conda-forge::dask-labextension' && \
     mamba clean --all -f -y && \

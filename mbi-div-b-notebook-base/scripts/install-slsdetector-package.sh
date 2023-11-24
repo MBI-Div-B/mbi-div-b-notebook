@@ -2,7 +2,7 @@
 
 cd /tmp
 mkdir sls-lib && cd sls-lib
-git clone https://github.com/slsdetectorgroup/slsDetectorPackage.git && cd slsDetectorPackage
+git clone --depth 1 https://github.com/slsdetectorgroup/slsDetectorPackage.git && cd slsDetectorPackage
 git checkout tags/7.0.1
 cd ..
 mkdir build && cd build
