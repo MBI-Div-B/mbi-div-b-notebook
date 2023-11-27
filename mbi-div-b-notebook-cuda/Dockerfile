@@ -146,7 +146,24 @@ RUN mkdir /opt/boris && \
 
 USER ${NB_UID}
 
-RUN fix-permissions "${CONDA_DIR}" && \
+RUN mamba install --yes \
+    # due to the bug in previos version of notebook need to be fixed with the version below
+    -c 'nvidia' \
+    -c 'pytorch' \
+    'cupy' \
+    'pytorch' \
+    'torchvision' \
+    'torchaudio' \
+    'pytorch-cuda=12.1' && \
+    mamba clean --all -f -y && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+
+# Install packages missing in mamba with pip
+# ultrafastfitfunctions need to be installed from git and commit after accepting the pull request
+# https://github.com/EmCeBeh/ultrafastFitFunctions/pull/2
+RUN pip install --no-cache-dir tensorflow[and-cuda] && \ 
+    fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
 USER ${NB_UID}
