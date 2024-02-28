@@ -28,6 +28,7 @@ RUN apt-get update --yes && \
     libtiff5-dev \
     # user requests
     imagemagick \
+    graphviz \
     # for matplotlib anim
     ffmpeg \
     # for octave installation
@@ -85,6 +86,7 @@ RUN mamba install --yes \
     'conda-forge::pyfai' \
     'xarray' \
     'netCDF4' \
+    'pygraphviz'\
     # 'jupyter-collaboration' \
     'octave_kernel' \
     'conda-forge::dask-labextension' && \
@@ -107,6 +109,8 @@ RUN pip install --no-cache-dir udkm1Dsim \
     jupyterlab-vega3 \
     jupyterlab-code-formatter \
     jupyterlab_h5web[full] \
+    scipp[all,interactive] \
+    sciline \
     black && \ 
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
