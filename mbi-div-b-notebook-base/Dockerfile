@@ -34,6 +34,10 @@ RUN apt-get update --yes && \
     # for octave installation
     octave \
     gnuplot \
+    # for micmag installation
+    libfftw3-3 \
+    libfftw3-bin \
+    libfftw3-dev \
     # for cifs mount inside of the image
     cifs-utils \
     # for nfs mount insde of the image
@@ -90,6 +94,9 @@ RUN mamba install --yes \
     # 'jupyter-collaboration' \
     'octave_kernel' \
     'conda-forge::dask-labextension' && \
+    # for micmag installation
+    'swig=4.0.2'\
+    'ffftw' \
     mamba clean --all -f -y && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
@@ -115,6 +122,8 @@ RUN pip install --no-cache-dir udkm1Dsim \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
+RUN chmod +x /tmp/scripts/install-micmag.sh && /tmp/scripts/install-micmag.sh
+
 # jupyterlab-code-formatter needs to be configured
 # https://jupyterlab-code-formatter.readthedocs.io/configuration.html
 # see more for jupyterhub https://jupyterlab-code-formatter.readthedocs.io/jupyterhub.html
@@ -131,7 +140,8 @@ WORKDIR /tmp
 
 # Import matplotlib the first time to build the font cache.
 ENV XDG_CACHE_HOME="/home/${NB_USER}/.cache/"
-
+# add the path to the MicMag2 package to the PYTHONPATH
+ENV PYTHONPATH=$PYTHONPATH:/opt/MicMag2/src
 RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
     fix-permissions "/home/${NB_USER}"
 
