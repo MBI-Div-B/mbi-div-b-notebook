@@ -9,7 +9,6 @@ LABEL description="Docker image for the MBI div B JupyterHub"
 # Fix: https://github.com/hadolint/hadolint/wiki/DL4006
 # Fix: https://github.com/koalaman/shellcheck/wiki/SC3014
 COPY data/Fira_Sans.zip /tmp/Fira_Sans.zip
-COPY scripts /tmp/scripts
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 USER root
@@ -44,7 +43,9 @@ RUN apt-get update --yes && \
     nfs-common && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+COPY scripts/install-mbistyles-fonts.sh /tmp/scripts/install-mbistyles-fonts.sh
 RUN chmod +x /tmp/scripts/install-mbistyles-fonts.sh && /tmp/scripts/install-mbistyles-fonts.sh
+COPY scripts/install-slsdetector-package.sh /tmp/scripts/install-slsdetector-package.sh
 RUN chmod +x /tmp/scripts/install-slsdetector-package.sh && /tmp/scripts/install-slsdetector-package.sh
 
 
@@ -92,11 +93,11 @@ RUN mamba install --yes \
     'netCDF4' \
     'pygraphviz'\
     # 'jupyter-collaboration' \
-    'octave_kernel' \
-    'conda-forge::dask-labextension' && \
     # for micmag installation
     'swig=4.0.2'\
-    'ffftw' \
+    'fftw' \
+    'octave_kernel' \
+    'conda-forge::dask-labextension' && \
     mamba clean --all -f -y && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
@@ -122,8 +123,10 @@ RUN pip install --no-cache-dir udkm1Dsim \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
+USER root
+COPY scripts/install-micmag.sh /tmp/scripts/install-micmag.sh
 RUN chmod +x /tmp/scripts/install-micmag.sh && /tmp/scripts/install-micmag.sh
-
+USER ${NB_UID}
 # jupyterlab-code-formatter needs to be configured
 # https://jupyterlab-code-formatter.readthedocs.io/configuration.html
 # see more for jupyterhub https://jupyterlab-code-formatter.readthedocs.io/jupyterhub.html
